@@ -49,9 +49,9 @@ def main():
     cudnn.benchmark = True
  
     # Data loading code
-    traindir = './train'
-    valdir = './val'
-    alldir = './all'
+    traindir = './data/train'
+    valdir = './data/val'
+    alldir = './data/all'
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
  
