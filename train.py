@@ -89,6 +89,8 @@ def main():
         scheduler.step(epoch)
         # train for one epoch
         train(train_loader, model, criterion, optimizer, epoch)
+      
+        #validate_every_class(val_loader,model)
 
         prec1 = validate(val_loader, model, criterion)
 
@@ -198,6 +200,29 @@ def validate(val_loader, model, criterion):
           .format(top1=top1, top5=top5))
  
     return top1.avg
+ 
+
+def validate_every_class(val_loader, model):
+
+    model.eval()
+    class_correct = list(0. for i in range(10))
+    class_total = list(0. for i in range(10))
+    for data in val_loader:
+        images, labels = data
+        labels=labels.cuda(async=True)
+        input_var = torch.autograd.Variable(images.cuda(), volatile=True)
+        output = model(input_var)
+        _, predicted = torch.max(output.data, 1)
+        c = (predicted == labels).squeeze()
+
+        for i in range(4):      # batch_size = 4
+            label = labels[i]
+            class_correct[label] += c[i]
+            class_total[label] += 1
+
+    for i in range(100):
+        print('Accuracy of %5s : %2d %%' % ((i+1), 100 * class_correct[i] / class_total[i]))
+ 
 
 
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
