@@ -206,8 +206,8 @@ def validate(val_loader, model, criterion):
 def validate_every_class(val_loader, model):
 
     model.eval()
-    class_correct = list(0. for i in range(10))
-    class_total = list(0. for i in range(10))
+    class_correct = list(0. for i in range(100))     # num of class
+    class_total = list(0. for i in range(100))       # num of class
     for data in val_loader:
         images, labels = data
         labels=labels.cuda(async=True)
@@ -216,12 +216,12 @@ def validate_every_class(val_loader, model):
         _, predicted = torch.max(output.data, 1)
         c = (predicted == labels).squeeze()
 
-        for i in range(4):      # batch_size = 4
-            label = labels[i]
+        for i in range(labels.shape[0]):      # 每个batch的图片个数，因为最后一个batch图片数目可能小于batch_size，所以这里不用batch_size
+            label = labels[i].item()          # item()将labels[i]转换为标量
             class_correct[label] += c[i]
             class_total[label] += 1
 
-    for i in range(100):
+    for i in range(100):       # num of class
         print('Accuracy of %5s : %2d %%' % ((i+1), 100 * class_correct[i] / class_total[i]))
  
 
