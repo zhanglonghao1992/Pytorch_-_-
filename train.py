@@ -218,11 +218,18 @@ def validate_every_class(val_loader, model):
 
         for i in range(labels.shape[0]):      # 每个batch的图片个数，因为最后一个batch图片数目可能小于batch_size，所以这里不用batch_size
             label = labels[i].item()          # item()将labels[i]转换为标量
-            class_correct[label] += c[i]
+            class_correct[label] += c[i].item()
             class_total[label] += 1
 
     for i in range(100):       # num of class
         print('Accuracy of %5s : %2d %%' % ((i+1), 100 * class_correct[i] / class_total[i]))
+    
+    correct=0
+    total=0
+    for i in range(100):   # num of class
+        correct+= class_correct[i]
+        total+=class_total[i]
+        print('Accuracy of total : %2d %%' % (100 * correct / total))
  
 
 
