@@ -102,7 +102,8 @@ def main():
             'state_dict': model.state_dict(),
             'best_prec1': best_prec1,
         }, is_best)
-
+    
+    #torch.save(model.state_dict(),'final.pth')
     print('done')
 
  
