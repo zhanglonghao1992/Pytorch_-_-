@@ -7,7 +7,7 @@ __all__ = ['ResNeXt101_32x4d', 'resnext101_32x4d']
 
 
 model_urls = {
-    'resnext101_32x4d': 'http://data.lip6.fr/cadene/pretrainedmodels/resnext101_32x4d-29e315fa.pth',
+    'resnext101_32x4d': '',
 
 }
 
