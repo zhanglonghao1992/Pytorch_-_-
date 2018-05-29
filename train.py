@@ -23,7 +23,7 @@ def main():
  
     # create model
     model=resnext.resnext101_32x4d(num_classes=1000, pretrained='imagenet')
-    model.fc = nn.Linear(model.fc.in_features, 100)
+    model.last_linear = nn.Linear(model.last_linear.in_features, 100)
 
     model.cuda()
     #model = torch.nn.parallel.DataParallel(model)
@@ -35,11 +35,11 @@ def main():
                                 momentum=0.9,
                                 weight_decay=1e-5)
     '''
-    ignored_params = list(map(id, model.fc.parameters()))
+    ignored_params = list(map(id, model.last_linear.parameters()))
     base_params = filter(lambda p: id(p) not in ignored_params,
                          model.parameters())
  
-    optimizer = torch.optim.SGD([{'params': base_params},{'params': model.fc.parameters(), 'lr': 10*lr}],
+    optimizer = torch.optim.SGD([{'params': base_params},{'params': model.last_linear.parameters(), 'lr': 10*lr}],
                                 lr,
                                 momentum=0.9,
                                 weight_decay=1e-5)
