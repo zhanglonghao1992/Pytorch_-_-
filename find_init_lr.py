@@ -71,11 +71,11 @@ def main():
     train_dataset = datasets.ImageFolder(
         traindir,
         transforms.Compose([
-            transforms.RandomResizedCrop(size=224, scale=(0.5, 2.0), ratio=(3. / 4., 3.)),
-            # transforms.RandomHorizontalFlip(),
+            transforms.RandomResizedCrop(size=224),
+            transforms.RandomHorizontalFlip(),
             #transforms.RandomRotation(degrees=20),
-            transforms.RandomAffine(degrees=20),
-            # transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0),
+            #transforms.RandomAffine(degrees=20),
+            #transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0),
             transforms.ToTensor(),
             normalize,
         ]))
@@ -83,7 +83,7 @@ def main():
     train_sampler = None
 
     train_loader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=8, shuffle=(train_sampler is None),
+        train_dataset, batch_size=16, shuffle=(train_sampler is None),
         num_workers=4, pin_memory=True, sampler=train_sampler)
 
     lr_mult = (1. / 1e-5) ** (1. / 100)
@@ -107,7 +107,7 @@ def main():
         optimizer.set_learning_rate(optimizer.learning_rate * lr_mult)
         if loss.data[0] < best_loss:
             best_loss = loss.data[0]
-        if loss.data[0] > 4 * best_loss or optimizer.learning_rate > 1.:
+        if loss.data[0] > 5 * best_loss or optimizer.learning_rate > 1.:
             break
 
     plt.figure()
