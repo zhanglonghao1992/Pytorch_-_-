@@ -63,7 +63,7 @@ def main():
     optimizer = Find_init_lr_Optim(basic_optimizer)
 
 
-    traindir = '/home/zhao/Desktop/zwy/baidu/train'
+    traindir = '.data/train'
 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
