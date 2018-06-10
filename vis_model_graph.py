@@ -20,4 +20,3 @@ with SummaryWriter(comment='Net') as w:
 # >>turn on the terminal
 # >>cd project path
 # >>run 'tensorboard --logdir runs'
-# >>choose the model graph
